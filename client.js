@@ -18,14 +18,16 @@ const connect = async () => {
   if (config.pairing && config.pairing.state && !sock.authState.creds.registered) {
     var phoneNumber = config.pairing.number
       if (!Object.keys(PHONENUMBER_MCC).some(v => String(phoneNumber).startsWith(v))) {
-        console.log('Invalid phone number');
+        console.log(colors.red('Invalid phone number'));
         return;
       }
     setTimeout(async () => {
       try {
         let code = await sock.requestPairingCode(phoneNumber);
-        code = code?.match(/.{1,4}/g)?.join("-") || code
-        console.log('Pairing Code:' + code)
+        
+        //code = code?.match(/.{1,4}/g)?.join("-") || code
+        
+        console.log(colors.yellow'Pairing Code:' + code)
       } catch {}
     }, 3000)
   }
