@@ -4,7 +4,8 @@ exports.run = {
   use: 'string',
   category: 'string',
   async: async (m, {
-    client
+    client,
+    isPrefix
   }) => {
     try {
       // Code Here
