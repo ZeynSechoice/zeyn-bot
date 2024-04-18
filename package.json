@@ -1,0 +1,26 @@
+{
+  "name": "robot",
+  "version": "1.0.0",
+  "description": "WhatsApp Bot",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "wabot",
+    "zeyn-bot",
+    "whatsapp-bot"
+  ],
+  "author": "Zeyn",
+  "license": "ISC",
+  "dependencies": {
+    "@colors/colors": "^1.6.0",
+    "@types/node": "^18.0.6",
+    "@whiskeysockets/baileys": "^6.6.0",
+    "axios": "^1.6.8",
+    "fs": "^0.0.1-security",
+    "pino": "^8.20.0",
+    "qrcode-terminal": "^0.12.0"
+  }
+}
