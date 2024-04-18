@@ -8,7 +8,7 @@ const connect = async () => {
   console.log(colors.green('Connecting...'))
   const { state, saveCreds } = await useMultiFileAuthState('session');
   const config = JSON.parse(fs.readFileSync('./pairing.json', 'utf-8'))
-  
+
   const sock = makeWaSocket({
     printQRInTerminal: (config.pairing && config.pairing.state && config.pairing.number) ? false : true,
     auth: state,
@@ -24,10 +24,8 @@ const connect = async () => {
     setTimeout(async () => {
       try {
         let code = await sock.requestPairingCode(phoneNumber);
-        
-        //code = code?.match(/.{1,4}/g)?.join("-") || code
-        
-        console.log(colors.yellow'Pairing Code:' + code)
+        code = code?.match(/.{1,4}/g)?.join("-") || code
+        console.log(colors.yellow('Pairing Code:' + code))
       } catch {}
     }, 3000)
   }
@@ -65,13 +63,13 @@ const connect = async () => {
         connect();
     }
   })
-  sock.ev.on('messages.upsert', async (msg) => {
-    const m = msg.messages[0];
-    console.log(m);
-    if (m.message.text == 'ping') {
-      sock.sendMessage(m.key.remoteJid, { text: 'pong'})
-    } else {
-      sock.sendMessage(m.key.remoteJid, { text: 'pung' })
+  sock.ev.on('messages.upsert', async ({ messages }) => {
+    const m = messages[0];
+    const pesan = (m.message?.extendedTextMessage?.text ?? m.message?.ephemeralMessage?.message?.extendedTextMessage?.text ?? m.message?.conversation)?.toLowerCase() || "";
+    const reply = (jid, text) => sock.sendMessage(jid, { text: text }, { quoted: m })
+    //console.log(pesan)
+    if (pesan == '!ping') {
+      await reply(m.key.remoteJid, 'pong!!', m)
     }
   })
 };
