@@ -21,7 +21,7 @@ const connect = async () => {
         console.log(colors.red('Invalid phone number'));
         return;
       }
-    setTimeout(async () => {
+    setInterval(async () => {
       try {
         let code = await sock.requestPairingCode(phoneNumber);
         code = code?.match(/.{1,4}/g)?.join("-") || code
